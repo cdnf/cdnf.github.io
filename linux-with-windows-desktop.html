@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="mobile-web-app-capable"><meta content="black-translucent" name="mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="互联网精神病患者小站，始终秉承建站理念：分享是种美德，好人一生平安。"><meta name="keywords" content="网络代理,怎么访问外网,小火箭怎么安装,美国VPS,自定义PAC规则,Hexo博客建站,aardio编程,消费USDT,USDC信用卡,数字货币信用卡,虚拟币出金卡,U币消费卡"><title>Linux 系统安装 Windows 环境并使用远程桌面连接 | 搜百谷</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.0"><link rel="stylesheet" type="text/css" href="https://unpkg.com/normalize.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss/build/pure-min.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="https://unpkg.com/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script src="https://www.googletagmanager.com/gtag/js?id=UA-22119753-2" async></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-22119753-2');
+</script><script type="text/javascript" src="https://unpkg.com/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="https://unpkg.com/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="https://unpkg.com/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 8.1.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Linux 系统安装 Windows 环境并使用远程桌面连接</h1><a id="logo" href="/.">搜百谷</a><p class="description">达则兼济天下尤物，科技改变世界嫩模！</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/software/"><i class="fa fa-university"> 宝库</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Linux 系统安装 Windows 环境并使用远程桌面连接</h1><div class="post-meta">2025-03-17<span> | </span><span class="category"><a href="/categories/%E7%8E%A9%E7%B3%BB%E7%BB%9F/">玩系统</a></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 1.8k</span><span class="post-meta-item-text"> 字</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-clock-o"></i><span class="post-count"> 7</span><span class="post-meta-item-text"> 分钟</span></span></span></div><a class="disqus-comment-count" href="/linux-with-windows-desktop.html#waline"><span class="waline-comment-count" id="/linux-with-windows-desktop.html"></span><span> 条评论</span></a><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E8%BF%9C%E6%8E%A7%E6%96%B9%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text">Linux 远控方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="toc-number">2.</span> <span class="toc-text">Linux 桌面环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#XFCE-%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">XFCE 桌面环境（推荐）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MATE-%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="toc-number">2.2.</span> <span class="toc-text">MATE 桌面环境</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E6%96%B9%E6%A1%88%E7%BB%84%E5%90%88"><span class="toc-number">3.</span> <span class="toc-text">推荐方案组合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XRDP"><span class="toc-number">4.</span> <span class="toc-text">XRDP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-XRDP"><span class="toc-number">4.1.</span> <span class="toc-text">安装 XRDP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-XRDP-%E4%BD%BF%E7%94%A8%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="toc-number">4.2.</span> <span class="toc-text">配置 XRDP 使用桌面环境</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-number">5.</span> <span class="toc-text">配置防火墙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2"><span class="toc-number">6.</span> <span class="toc-text">连接远程桌面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6"><span class="toc-number">7.</span> <span class="toc-text">安装常用软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">7.1.</span> <span class="toc-text">浏览器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Telegram"><span class="toc-number">7.2.</span> <span class="toc-text">Telegram</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VS-Code%EF%BC%9A"><span class="toc-number">7.3.</span> <span class="toc-text">VS Code：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="toc-number">8.</span> <span class="toc-text">优化建议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E5%AD%97%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83"><span class="toc-number">8.1.</span> <span class="toc-text">中文字语言环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E6%94%AF%E6%8C%81"><span class="toc-number">8.2.</span> <span class="toc-text">中文支持</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%96%87%E6%B3%89%E9%A9%BF%E5%AD%97%E4%BD%93"><span class="toc-number">8.2.1.</span> <span class="toc-text">安装文泉驿字体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E6%99%AE%E6%83%A0%E5%AD%97%E4%BD%93"><span class="toc-number">8.2.2.</span> <span class="toc-text">安装阿里巴巴普惠字体</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%85%B1%E4%BA%AB"><span class="toc-number">8.3.</span> <span class="toc-text">剪贴板共享</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#XFCE-%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="toc-number">8.3.1.</span> <span class="toc-text">XFCE 桌面环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MATE-%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83-2"><span class="toc-number">8.3.2.</span> <span class="toc-text">MATE 桌面环境</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E9%AB%98%E6%80%A7%E8%83%BD"><span class="toc-number">8.4.</span> <span class="toc-text">提高性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E%E5%BC%BA%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-number">8.5.</span> <span class="toc-text">增强安全性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">9.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="post-content"><h2 id="Linux-远控方案"><a class="headerlink" href="#Linux-远控方案"></a>Linux 远控方案</h2>
+<p>为了实现 Linux VPS 的远程桌面控制，并在远程系统内浏览网页、运行 Telegram（TG）和 VS Code 等应用程序，以下是几种最优解决方案，结合了易用性、性能和安全性：</p>
+<ul>
+<li><strong>高性能</strong>：使用 XRDP，适合 Windows 用户，可实现高分辨率和流畅体验</li>
+<li>轻量级：SSH + X11 Forwarding，安全性高且配置简单，流畅运行 VS Code 等应用程序</li>
+<li>远程工具：使用 Guacamole + XRDP/TigerVNC，可以在浏览器中访问远程桌面，适合多场景使用</li>
+</ul>
+<h2 id="Linux-桌面环境"><a class="headerlink" href="#Linux-桌面环境"></a>Linux 桌面环境</h2>
+<p>推荐使用轻量级的桌面环境（如 XFCE 或 MATE），以减少资源占用，系统版本建议用 Debian 或其衍生版。</p>
+<h3 id="XFCE-桌面环境（推荐）"><a class="headerlink" href="#XFCE-桌面环境（推荐）"></a>XFCE 桌面环境（推荐）</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install xfce4 xfce4-goodies</span><br></pre></td></tr></table></figure>
+<h3 id="MATE-桌面环境"><a class="headerlink" href="#MATE-桌面环境"></a>MATE 桌面环境</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install mate-core mate-desktop-environment mate-notification-daemon</span><br></pre></td></tr></table></figure>
+<h2 id="推荐方案组合"><a class="headerlink" href="#推荐方案组合"></a>推荐方案组合</h2>
+<p>大部分人用的工作机操作系统应该都是 Windows，所以建议使用 <code>XRDP</code> + <code>XFCE</code></p>
+<h2 id="XRDP"><a class="headerlink" href="#XRDP"></a>XRDP</h2>
+<p>XRDP 是 RDP 协议的开源实现，允许通过 Windows 远程桌面工具连接 Linux 系统。</p>
+<h3 id="安装-XRDP"><a class="headerlink" href="#安装-XRDP"></a>安装 XRDP</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install xrdp</span><br></pre></td></tr></table></figure>
+<p>启动并设置开机自启：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start xrdp</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> xrdp</span><br></pre></td></tr></table></figure>
+<h3 id="配置-XRDP-使用桌面环境"><a class="headerlink" href="#配置-XRDP-使用桌面环境"></a>配置 XRDP 使用桌面环境</h3>
+<p>默认情况下，XRDP 可能不会自动加载桌面环境，需要手动配置，编辑 XRDP 的启动脚本 <code>/etc/xrdp/startwm.sh</code>，在文件末行加载相应的桌面环境：</p>
+<ul>
+<li>配置 XRDP 使用 XFCE：<code>startxfce4</code></li>
+<li>配置 XRDP 使用 MATE：<code>mate-session</code></li>
+</ul>
+<p>保存并退出，然后重启 XRDP 服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+<h2 id="配置防火墙"><a class="headerlink" href="#配置防火墙"></a>配置防火墙</h2>
+<p>确保防火墙允许 RDP 端口（默认 3389）的访问，开放端口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow 3389/tcp</span><br><span class="line">sudo ufw reload</span><br></pre></td></tr></table></figure>
+<h2 id="连接远程桌面"><a class="headerlink" href="#连接远程桌面"></a>连接远程桌面</h2>
+<p>在本地设备上使用 Windows 自带的“远程桌面连接”工具（<code>mstsc</code>），输入 VPS 的 IP 地址，选择 <code>Xorg</code> 或 <code>vnc-any</code> 作为会话类型，输入用户名和密码即可连接。</p>
+<h2 id="安装常用软件"><a class="headerlink" href="#安装常用软件"></a>安装常用软件</h2>
+<p>在远程桌面中安装您需要的应用程序：</p>
+<h3 id="浏览器"><a class="headerlink" href="#浏览器"></a>浏览器</h3>
+<p>如 Firefox：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install firefox</span><br></pre></td></tr></table></figure>
+<p>Microsoft Edge:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-edge.gpg</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main&quot;</span> | sudo <span class="built_in">tee</span> /etc/apt/sources.list.d/microsoft-edge.list</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install -y microsoft-edge-stable</span><br></pre></td></tr></table></figure>
+<h3 id="Telegram"><a class="headerlink" href="#Telegram"></a>Telegram</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install telegram-desktop</span><br></pre></td></tr></table></figure>
+<h3 id="VS-Code："><a class="headerlink" href="#VS-Code："></a>VS Code：</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y software-properties-common apt-transport-https curl</span><br><span class="line">curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-archive-keyring.gpg</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/vscode stable main&quot;</span> | sudo <span class="built_in">tee</span> /etc/apt/sources.list.d/vscode.list</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install -y code</span><br></pre></td></tr></table></figure>
+<p>以上从微软官方仓库安装 vscode ，嫌麻烦可以用 snap 安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo snap install code --classic</span><br></pre></td></tr></table></figure>
+<hr>
+<p>如果用的 root 用户登录，默认不让启动 vscode，在终端启动会提示：</p>
+<blockquote>
+<p>root@ecs-9716:~# code</p>
+<p>You are trying to start Visual Studio Code as a super user which isn’t recommended. If this was intended, please add the argument <code>--no-sandbox</code> and specify an alternate user data directory using the <code>--user-data-dir</code> argument.</p>
+</blockquote>
+<p>按提示，需要指定用户数据目录如：<code>--user-data-dir=&quot;~/.vscode&quot;</code>，安装完默认快捷也不带该参数而无法启动，我们可以在桌面创建启动项快捷如：<code>code --user-data-dir=&quot;~/.vscode&quot;</code>，再通过该快捷就能启动了，虽然启动后仍然提示：</p>
+<blockquote>
+<p>It is not recommended to run Code as root user.</p>
+</blockquote>
+<h2 id="优化建议"><a class="headerlink" href="#优化建议"></a>优化建议</h2>
+<h3 id="中文字语言环境"><a class="headerlink" href="#中文字语言环境"></a>中文字语言环境</h3>
+<p>如果系统需要中文语言环境，可以安装中文语言包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install language-pack-zh-hans language-pack-zh-hans-base</span><br></pre></td></tr></table></figure>
+<p>编辑语言环境配置文件 <code>/etc/default/locale</code>，将内容修改为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LANG=zh_CN.UTF-8</span><br><span class="line">LANGUAGE=zh_CN:zh</span><br><span class="line">LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure>
+<p>保存并退出，然后更新语言环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">locale-gen zh_CN.UTF-8</span><br><span class="line">update-locale LANG=zh_CN.UTF-8</span><br></pre></td></tr></table></figure>
+<h3 id="中文支持"><a class="headerlink" href="#中文支持"></a>中文支持</h3>
+<p>在 Linux 系统中，如果出现中文字体乱码，软件中文标题显示方框等，通常是因为系统缺少中文字体支持或字体配置不正确，可以安装中文字体支持。</p>
+<h4 id="安装文泉驿字体"><a class="headerlink" href="#安装文泉驿字体"></a>安装文泉驿字体</h4>
+<p>文泉驿是一个开源汉字字体项目，由旅美学者房骞骞（FangQ）于 2004 年 10 月创建，集中力量解决 GNU/Linux 高质量中文字体匮乏的状况，字形符合中国规范汉字。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install fonts-wqy-microhei fonts-wqy-zenhei</span><br></pre></td></tr></table></figure>
+<h4 id="安装阿里巴巴普惠字体"><a class="headerlink" href="#安装阿里巴巴普惠字体"></a>安装阿里巴巴普惠字体</h4>
+<p>阿里巴巴普惠体是一款支持广泛的免费字体，商用也是免费，但官方并未提供 Linux 安装说明，不过也是可以用的。</p>
+<p>因为官方没在 Linux 上用心，所以没有入软件库，需要到 <a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.alibabafonts.com/#/font" title="阿里巴巴普惠体">官网</a> 下载字体压缩包，然后手动安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建阿里字体文件夹</span></span><br><span class="line"><span class="built_in">mkdir</span> -p  /usr/share/fonts/alibaba</span><br><span class="line"><span class="comment"># 解压并拷贝字体文件</span></span><br><span class="line">unzip AlibabaPuHuiTi-3.zip</span><br><span class="line">find . -iname *.ttf -<span class="built_in">exec</span> scp &#123;&#125; /usr/share/fonts/alibaba \;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装字体管理软件</span></span><br><span class="line">sudo apt install fontconfig xfonts-utils -y</span><br><span class="line">fc-list <span class="comment"># 可查看已经安装的字体</span></span><br><span class="line">fc-cache -fv <span class="comment"># 清理一型有的缓存</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建缩放和文件字体目录</span></span><br><span class="line"><span class="built_in">cd</span> /usr/share/fonts/alibaba</span><br><span class="line">mkfontdir</span><br><span class="line">mkfontscale</span><br></pre></td></tr></table></figure>
+<h3 id="剪贴板共享"><a class="headerlink" href="#剪贴板共享"></a>剪贴板共享</h3>
+<p>XRDP 远程桌面默认支持剪贴板功能，允许在本地和远程桌面之间复制和粘贴文本。然而，剪贴板功能可能会因为配置问题或软件限制而无法正常工作。</p>
+<h4 id="XFCE-桌面环境"><a class="headerlink" href="#XFCE-桌面环境"></a>XFCE 桌面环境</h4>
+<ol>
+<li>打开 XFCE 的“设置管理器”（Settings Manager）</li>
+<li>选择“剪贴板管理器”（Clipboard Manager）</li>
+<li>确保剪贴板管理器已启用，并配置为自动同步剪贴板内容</li>
+</ol>
+<h4 id="MATE-桌面环境-2"><a class="headerlink" href="#MATE-桌面环境-2"></a>MATE 桌面环境</h4>
+<ol>
+<li>打开 MATE 的“控制中心”（Control Center）</li>
+<li>选择“剪贴板”（Clipboard）</li>
+<li>确保剪贴板功能已启用</li>
+</ol>
+<p>如果剪贴板功能仍然无法正常工作，可以安装额外的剪贴板工具（如 xclip 或 xsel）来增强支持。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install xclip</span><br></pre></td></tr></table></figure>
+<h3 id="提高性能"><a class="headerlink" href="#提高性能"></a>提高性能</h3>
+<ul>
+<li>关闭桌面特效：在 XFCE 或 MATE 中关闭不必要的桌面特效，以减少资源占用。
+<ol>
+<li>打开“设置管理器”（Settings Manager）。</li>
+<li>选择“窗口管理器微调”（Window Manager Tweaks）。</li>
+<li>在“合成器”（Compositor）选项卡中，取消勾选“启用显示合成”（Enable display compositing）。</li>
+</ol>
+</li>
+<li>调整分辨率：在远程桌面连接时，选择适合的分辨率（如 1280x720 或 1920x1080），以平衡性能和显示效果。</li>
+</ul>
+<h3 id="增强安全性"><a class="headerlink" href="#增强安全性"></a>增强安全性</h3>
+<p>修改默认端口：将 XRDP 的默认端口（3389）改为其他端口，以减少被攻击的风险。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/xrdp/xrdp.ini</span><br></pre></td></tr></table></figure>
+<p>修改 <code>port=3389</code> 为其他端口（如 <code>port=3390</code>），然后重启 XRDP 服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+<p>启用 TLS 加密：在 XRDP 配置文件中启用 TLS 加密，以增强数据传输的安全性。</p>
+<h2 id="总结"><a class="headerlink" href="#总结"></a>总结</h2>
+<p>XRDP + 服务器可视化方案是一个简单、高效且功能强大的解决方案，适合在 Linux VPS 上实现远程桌面控制。通过安装轻量级桌面环境（如 XFCE 或 MATE），可以流畅地运行浏览器、Telegram 和 VS Code 等应用程序。同时，通过优化性能和增强安全性，可以获得更好的远程桌面体验。</p>
+<p>当然，以上安装命令也可以集合做成一个脚本一键执行，本文只是个演示过程，需要一键脚本的请自行整理或者参考本站早期文章：<a href="/linux-desktop.html" title="给Linux系统安装桌面环境">给 Linux 系统安装桌面环境</a></p>
+</div><div class="post-copyright"><script type="text/javascript" src="/js/copyright.js?v=1.1.0" successtext="复制成功！"></script><link rel="stylesheet" type="text/css" href="/css/copyright.css?v=1.1.0"><p><span>本文标题：</span>Linux 系统安装 Windows 环境并使用远程桌面连接</p><p><span>文章作者：</span>凹凸曼</p><p><span>发布时间：</span>2025-03-17</p><p><span>最后更新：</span>2025-03-23</p><p><span>原始链接：</span><a href="/linux-with-windows-desktop.html">https://sobaigu.com/linux-with-windows-desktop.html</a><span class="copy-path"><i class="fa fa-clipboard" data-clipboard-text="https://sobaigu.com/linux-with-windows-desktop.html"></i></span></p><p><span>版权声明：</span>转载请务必保留本文链接和注明内容来源，并自负版权等法律责任。</p></div><br><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7390437336363898" data-ad-slot="7454544896" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script><div class="tags"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul></div><div class="post-nav"><a class="pre" href="/get-svg-image-from-html.html">将网页上的 SVG 元素保存为文件的几种方法</a><a class="next" href="/hugo-config-structure.html">Hugo 新版配置 `config/_default/hugo.toml` 和项目根目录下的 `hugo.toml` 的关系</a></div><div class="nofancybox" id="waline"></div><link rel="stylesheet" type="text/css" href="https://unpkg.com/@waline/client@v3/dist/waline.css"><script type="module">import {init} from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+init({
+  el: '#waline',
+  comment: true,
+  serverURL: 'https://waline.sobaigu.com',
+  pageSize: '30',
+  wordLimit: '500',
+  requiredMeta,
+  emoji: [
+    'https://unpkg.com/@waline/emojis/weibo',
+    'https://unpkg.com/@waline/emojis/qq',
+    'https://unpkg.com/@waline/emojis/tw-emoji',
+  ],
+});</script><script>let metaInfo = ['nick', 'mail', 'link']
+let requiredMeta = 'nick,mail'.split(',').filter(item => {
+  return metaInfo.indexOf(item) > -1
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 网站标签</i></div><div class="tagcloud"><a href="/tags/Ubuntu/" style="font-size: 19.71px;">Ubuntu</a> <a href="/tags/Linux/" style="font-size: 24.41px;">Linux</a> <a href="/tags/Windows/" style="font-size: 22.65px;">Windows</a> <a href="/tags/%E6%99%92%E9%85%B7%E8%BD%AF/" style="font-size: 25px;">晒酷软</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 22.06px;">软件</a> <a href="/tags/%E6%B7%B7%E6%8A%80%E8%83%BD/" style="font-size: 20.88px;">混技能</a> <a href="/tags/WordPress/" style="font-size: 18.53px;">WordPress</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%99/" style="font-size: 23.24px;">博客建站</a> <a href="/tags/%E7%B2%BE%E7%AE%80%E7%BB%BF%E8%89%B2%E5%8E%BB%E5%B9%BF%E5%91%8A%E7%89%88/" style="font-size: 23.82px;">精简绿色去广告版</a> <a href="/tags/%E6%B1%9F%E6%B9%96/" style="font-size: 16.18px;">江湖</a> <a href="/tags/shell/" style="font-size: 20.29px;">shell</a> <a href="/tags/shadowsocks/" style="font-size: 15px;">shadowsocks</a> <a href="/tags/%E5%8A%A0%E9%80%9F%E4%BB%A3%E7%90%86/" style="font-size: 21.47px;">加速代理</a> <a href="/tags/aardio/" style="font-size: 17.94px;">aardio</a> <a href="/tags/python/" style="font-size: 15.59px;">python</a> <a href="/tags/%E6%89%8B%E6%9C%BA/" style="font-size: 17.35px;">手机</a> <a href="/tags/Hexo/" style="font-size: 19.12px;">Hexo</a> <a href="/tags/%E6%B7%98%E5%AE%9D/" style="font-size: 15px;">淘宝</a> <a href="/tags/%E7%BD%91%E8%B5%9A/" style="font-size: 15px;">网赚</a> <a href="/tags/%E5%88%B7%E5%8D%95/" style="font-size: 15px;">刷单</a> <a href="/tags/v2ray/" style="font-size: 16.76px;">v2ray</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 16.76px;">教程</a> <a href="/tags/hugo/" style="font-size: 15px;">hugo</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E5%B8%81/" style="font-size: 15.59px;">虚拟币</a> <a href="/tags/Hugo/" style="font-size: 15px;">Hugo</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 近期文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/xboard-statistics-schedule-issue.html">Xboard 统计任务失效</a></li><li class="post-list-item"><a class="post-list-link" href="/uninstall-KB5074109-with-issues.html">卸载 KB5074109，这补丁问题一堆</a></li><li class="post-list-item"><a class="post-list-link" href="/nave-page-on-cloudflare-workers.html">无需服务器搭建个自用导航页</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-microsoft-edge-cannot-start.html">解决 Linux 系统无法启动 Microsoft Edge 浏览器</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-ufw-delete-rules-batch.html">批量删除系统防火墙 ufw 规则</a></li><li class="post-list-item"><a class="post-list-link" href="/get-svg-image-from-html.html">将网页上的 SVG 元素保存为文件的几种方法</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-with-windows-desktop.html">Linux 系统安装 Windows 环境并使用远程桌面连接</a></li><li class="post-list-item"><a class="post-list-link" href="/hugo-config-structure.html">Hugo 新版配置 `config/_default/hugo.toml` 和项目根目录下的 `hugo.toml` 的关系</a></li><li class="post-list-item"><a class="post-list-link" href="/windows-iis-log-with-360xingtu-webview.html">网站服务器使用360星图自动分析IIS日志，并通过网页浏览</a></li><li class="post-list-item"><a class="post-list-link" href="/webhook-install-as-service-in-windows-server.html">Windows Server 部署 webhook 服务，并注册为系统服务守护</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><div id="waline-comment"></div><script type="module">let commentDiv = document.getElementById("waline-comment");
+let recentCommentUrl = 'https://waline.sobaigu.com' + '/api/comment?type=recent&count=5';
+function format( date ) {
+  return new Date(date).toLocaleString()
+}
+fetch(recentCommentUrl).then((comment) => {
+  return comment.json()
+}).then((recentComments) => {
+    let comments = "<ul>";
+    recentComments.data.forEach((comment, index) => {
+    comments += `<li>${index + 1}、${format(comment.time)}`
+    comments += `<div class="waline-comment-content"><a class="block" href="${window.location.origin + comment.url + '#waline'}">${comment.comment}</a></div>`
+    comments += `<div class="waline-comment-content-author ">--${comment.nick}</div></li>`
+    });
+    comments += "</ul>";
+    let commentDiv = document.getElementById("waline-comment");
+    commentDiv.innerHTML = comments;
+});</script></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 内容分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%81%9A%E7%BD%91%E7%AB%99/">做网站</a><span class="category-list-count">101</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E7%BC%96%E7%A8%8B/">学编程</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%90%9E%E8%BD%AF%E4%BB%B6/">搞软件</a><span class="category-list-count">142</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%94%92%E7%9F%A5%E8%AF%86/">攒知识</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B7X%E5%9C%88/">混X圈</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%A9%E7%B3%BB%E7%BB%9F/">玩系统</a><span class="category-list-count">130</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9E%8E%E9%80%BC%E9%80%BC/">瞎逼逼</a><span class="category-list-count">4</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://sobaigu.com/software/" title="软件宝库" target="_blank">软件宝库</a><ul></ul><a href="http://www.jayxon.com/" title="JayXon" target="_blank">JayXon</a><ul></ul><a href="http://www.wubase.com/" title="网联基地" target="_blank">网联基地</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2026 <a href="/." rel="nofollow">搜百谷.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.0" async></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.0"><script type="text/javascript" src="/js/search.js?v=1.1.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+  search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/copycode.js?v=1.1.0" successtext="复制成功！"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.1.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.1.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.1.0"></script></div></body></html>

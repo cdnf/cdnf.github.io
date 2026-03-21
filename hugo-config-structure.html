@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="mobile-web-app-capable"><meta content="black-translucent" name="mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="互联网精神病患者小站，始终秉承建站理念：分享是种美德，好人一生平安。"><meta name="keywords" content="网络代理,怎么访问外网,小火箭怎么安装,美国VPS,自定义PAC规则,Hexo博客建站,aardio编程,消费USDT,USDC信用卡,数字货币信用卡,虚拟币出金卡,U币消费卡"><title>Hugo 新版配置 `config/_default/hugo.toml` 和项目根目录下的 `hugo.toml` 的关系 | 搜百谷</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1.0"><link rel="stylesheet" type="text/css" href="https://unpkg.com/normalize.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss/build/pure-min.css"><link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="https://unpkg.com/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script src="https://www.googletagmanager.com/gtag/js?id=UA-22119753-2" async></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-22119753-2');
+</script><script type="text/javascript" src="https://unpkg.com/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="https://unpkg.com/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="https://unpkg.com/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 8.1.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Hugo 新版配置 `config/_default/hugo.toml` 和项目根目录下的 `hugo.toml` 的关系</h1><a id="logo" href="/.">搜百谷</a><p class="description">达则兼济天下尤物，科技改变世界嫩模！</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/software/"><i class="fa fa-university"> 宝库</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Hugo 新版配置 `config/_default/hugo.toml` 和项目根目录下的 `hugo.toml` 的关系</h1><div class="post-meta">2025-03-06<span> | </span><span class="category"><a href="/categories/%E5%81%9A%E7%BD%91%E7%AB%99/">做网站</a></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 797</span><span class="post-meta-item-text"> 字</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-clock-o"></i><span class="post-count"> 2</span><span class="post-meta-item-text"> 分钟</span></span></span></div><a class="disqus-comment-count" href="/hugo-config-structure.html#waline"><span class="waline-comment-count" id="/hugo-config-structure.html"></span><span> 条评论</span></a><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%B8%8E%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">1.</span> <span class="toc-text">1. 配置文件的位置与优先级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">2. 多环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E5%90%88%E5%B9%B6%E8%A7%84%E5%88%99"><span class="toc-number">3.</span> <span class="toc-text">3. 配置文件的合并规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8%E6%A0%B9%E7%9B%AE%E5%BD%95%E7%9A%84-hugo-toml"><span class="toc-number">4.</span> <span class="toc-text">4. 何时使用根目录的 hugo.toml</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">5. 总结</span></a></li></ol></div></div><div class="post-content"><p>在 Hugo 的最新版本中，配置文件的组织方式变得更加灵活，支持多环境配置和模块化配置。<code>config/_default/hugo.toml</code> 和项目根目录下的 <code>hugo.toml</code> 之间的关系如下：</p>
+<span id="more"></span>
+<hr>
+<h2 id="1-配置文件的位置与优先级"><a class="headerlink" href="#1-配置文件的位置与优先级"></a>1. 配置文件的位置与优先级</h2>
+<p>Hugo 支持多种配置文件格式（TOML、YAML、JSON），并且可以通过目录结构来组织配置文件。以下是两种配置文件的定位和优先级：</p>
+<ul>
+<li>
+<p><strong>项目根目录下的 <code>hugo.toml</code></strong><br>
+这是 Hugo 的传统配置文件位置，适用于简单的项目或旧版本 Hugo。它的优先级较低，如果存在 <code>config</code> 目录，Hugo 会优先读取 <code>config</code> 目录中的配置。</p>
+</li>
+<li>
+<p><strong><code>config/_default/hugo.toml</code></strong><br>
+这是 Hugo 推荐的新配置方式，位于 <code>config</code> 目录下的 <code>_default</code> 子目录中。<code>_default</code> 目录中的配置文件是默认配置，适用于所有环境（如开发环境、生产环境等）。Hugo 会优先读取 <code>config</code> 目录中的配置，且 <code>_default</code> 目录的配置会被其他环境配置（如 <code>production</code>、<code>development</code>）覆盖或扩展。</p>
+</li>
+</ul>
+<hr>
+<h2 id="2-多环境配置"><a class="headerlink" href="#2-多环境配置"></a>2. 多环境配置</h2>
+<p>Hugo 支持多环境配置，允许为不同的环境（如开发、生产、测试等）定义不同的配置。<code>config</code> 目录的结构如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">config/</span><br><span class="line">├── _default/</span><br><span class="line">│ ├── hugo.toml <span class="comment"># 默认配置，适用于所有环境</span></span><br><span class="line">│ ├── params.toml <span class="comment"># 默认参数配置</span></span><br><span class="line">│ └── menus.toml <span class="comment"># 默认菜单配置</span></span><br><span class="line">├── production/</span><br><span class="line">│ ├── hugo.toml <span class="comment"># 生产环境配置</span></span><br><span class="line">│ └── params.toml <span class="comment"># 生产环境参数配置</span></span><br><span class="line">└── development/</span><br><span class="line">├── hugo.toml <span class="comment"># 开发环境配置</span></span><br><span class="line">└── params.toml <span class="comment"># 开发环境参数配置</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>_default/hugo.toml</code></strong>：这是基础配置，适用于所有环境。</li>
+<li><strong><code>production/hugo.toml</code></strong> 或 <strong><code>development/hugo.toml</code></strong>：这些是特定环境的配置，会覆盖或扩展 <code>_default</code> 中的配置。</li>
+</ul>
+<hr>
+<h2 id="3-配置文件的合并规则"><a class="headerlink" href="#3-配置文件的合并规则"></a>3. 配置文件的合并规则</h2>
+<p>Hugo 在加载配置时，会按照以下规则合并配置文件：</p>
+<ol>
+<li><strong>默认配置</strong>：首先加载 <code>config/_default/hugo.toml</code> 中的配置。</li>
+<li><strong>环境配置</strong>：根据当前环境（通过 <code>--environment</code> 参数指定），加载对应环境的配置文件（如 <code>production/hugo.toml</code>）。</li>
+<li><strong>覆盖规则</strong>：环境配置中的同名配置项会覆盖 <code>_default</code> 中的配置项。</li>
+</ol>
+<p>例如，如果 <code>_default/hugo.toml</code> 中设置了 <code>baseURL = &quot;http://example.com/&quot;</code>，而在 <code>production/hugo.toml</code> 中设置了 <code>baseURL = &quot;https://example.com/&quot;</code>，则生产环境会使用后者。</p>
+<hr>
+<h2 id="4-何时使用根目录的-hugo-toml"><a class="headerlink" href="#4-何时使用根目录的-hugo-toml"></a>4. 何时使用根目录的 <code>hugo.toml</code></h2>
+<p>在以下情况下，可以使用根目录的 <code>hugo.toml</code>：</p>
+<ul>
+<li>项目较简单，不需要多环境配置。</li>
+<li>项目是从旧版本 Hugo 迁移而来，尚未切换到 <code>config</code> 目录结构。</li>
+</ul>
+<p>但为了更好的可维护性和灵活性，建议使用 <code>config</code> 目录结构，并将配置文件放在 <code>_default</code> 或其他环境目录中。</p>
+<hr>
+<h2 id="5-总结"><a class="headerlink" href="#5-总结"></a>5. 总结</h2>
+<ul>
+<li><strong><code>config/_default/hugo.toml</code></strong> 是默认配置文件，适用于所有环境，优先级高于根目录的 <code>hugo.toml</code>。</li>
+<li><strong>根目录的 <code>hugo.toml</code></strong> 是旧版配置方式，适用于简单项目或旧版本迁移。</li>
+<li><strong>多环境配置</strong>：通过 <code>config</code> 目录结构，可以为不同环境定义不同的配置，Hugo 会自动合并和覆盖配置项。</li>
+</ul>
+<p>如果需要更详细的配置示例或高级用法，可以参考 <a target="_blank" rel="noopener external nofollow noreferrer" href="https://gohugo.io/getting-started/configuration/">Hugo 官方文档</a>。</p>
+</div><div class="post-copyright"><script type="text/javascript" src="/js/copyright.js?v=1.1.0" successtext="复制成功！"></script><link rel="stylesheet" type="text/css" href="/css/copyright.css?v=1.1.0"><p><span>本文标题：</span>Hugo 新版配置 `config/_default/hugo.toml` 和项目根目录下的 `hugo.toml` 的关系</p><p><span>文章作者：</span>凹凸曼</p><p><span>发布时间：</span>2025-03-06</p><p><span>最后更新：</span>2025-03-06</p><p><span>原始链接：</span><a href="/hugo-config-structure.html">https://sobaigu.com/hugo-config-structure.html</a><span class="copy-path"><i class="fa fa-clipboard" data-clipboard-text="https://sobaigu.com/hugo-config-structure.html"></i></span></p><p><span>版权声明：</span>转载请务必保留本文链接和注明内容来源，并自负版权等法律责任。</p></div><br><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7390437336363898" data-ad-slot="7454544896" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script><div class="tags"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hugo/" rel="tag">Hugo</a></li></ul></div><div class="post-nav"><a class="pre" href="/linux-with-windows-desktop.html">Linux 系统安装 Windows 环境并使用远程桌面连接</a><a class="next" href="/windows-iis-log-with-360xingtu-webview.html">网站服务器使用360星图自动分析IIS日志，并通过网页浏览</a></div><div class="nofancybox" id="waline"></div><link rel="stylesheet" type="text/css" href="https://unpkg.com/@waline/client@v3/dist/waline.css"><script type="module">import {init} from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+init({
+  el: '#waline',
+  comment: true,
+  serverURL: 'https://waline.sobaigu.com',
+  pageSize: '30',
+  wordLimit: '500',
+  requiredMeta,
+  emoji: [
+    'https://unpkg.com/@waline/emojis/weibo',
+    'https://unpkg.com/@waline/emojis/qq',
+    'https://unpkg.com/@waline/emojis/tw-emoji',
+  ],
+});</script><script>let metaInfo = ['nick', 'mail', 'link']
+let requiredMeta = 'nick,mail'.split(',').filter(item => {
+  return metaInfo.indexOf(item) > -1
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 网站标签</i></div><div class="tagcloud"><a href="/tags/Ubuntu/" style="font-size: 19.71px;">Ubuntu</a> <a href="/tags/Linux/" style="font-size: 24.41px;">Linux</a> <a href="/tags/Windows/" style="font-size: 22.65px;">Windows</a> <a href="/tags/%E6%99%92%E9%85%B7%E8%BD%AF/" style="font-size: 25px;">晒酷软</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 22.06px;">软件</a> <a href="/tags/%E6%B7%B7%E6%8A%80%E8%83%BD/" style="font-size: 20.88px;">混技能</a> <a href="/tags/WordPress/" style="font-size: 18.53px;">WordPress</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%99/" style="font-size: 23.24px;">博客建站</a> <a href="/tags/%E7%B2%BE%E7%AE%80%E7%BB%BF%E8%89%B2%E5%8E%BB%E5%B9%BF%E5%91%8A%E7%89%88/" style="font-size: 23.82px;">精简绿色去广告版</a> <a href="/tags/%E6%B1%9F%E6%B9%96/" style="font-size: 16.18px;">江湖</a> <a href="/tags/shell/" style="font-size: 20.29px;">shell</a> <a href="/tags/shadowsocks/" style="font-size: 15px;">shadowsocks</a> <a href="/tags/%E5%8A%A0%E9%80%9F%E4%BB%A3%E7%90%86/" style="font-size: 21.47px;">加速代理</a> <a href="/tags/aardio/" style="font-size: 17.94px;">aardio</a> <a href="/tags/python/" style="font-size: 15.59px;">python</a> <a href="/tags/%E6%89%8B%E6%9C%BA/" style="font-size: 17.35px;">手机</a> <a href="/tags/Hexo/" style="font-size: 19.12px;">Hexo</a> <a href="/tags/%E6%B7%98%E5%AE%9D/" style="font-size: 15px;">淘宝</a> <a href="/tags/%E7%BD%91%E8%B5%9A/" style="font-size: 15px;">网赚</a> <a href="/tags/%E5%88%B7%E5%8D%95/" style="font-size: 15px;">刷单</a> <a href="/tags/v2ray/" style="font-size: 16.76px;">v2ray</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 16.76px;">教程</a> <a href="/tags/hugo/" style="font-size: 15px;">hugo</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E5%B8%81/" style="font-size: 15.59px;">虚拟币</a> <a href="/tags/Hugo/" style="font-size: 15px;">Hugo</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 近期文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/xboard-statistics-schedule-issue.html">Xboard 统计任务失效</a></li><li class="post-list-item"><a class="post-list-link" href="/uninstall-KB5074109-with-issues.html">卸载 KB5074109，这补丁问题一堆</a></li><li class="post-list-item"><a class="post-list-link" href="/nave-page-on-cloudflare-workers.html">无需服务器搭建个自用导航页</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-microsoft-edge-cannot-start.html">解决 Linux 系统无法启动 Microsoft Edge 浏览器</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-ufw-delete-rules-batch.html">批量删除系统防火墙 ufw 规则</a></li><li class="post-list-item"><a class="post-list-link" href="/get-svg-image-from-html.html">将网页上的 SVG 元素保存为文件的几种方法</a></li><li class="post-list-item"><a class="post-list-link" href="/linux-with-windows-desktop.html">Linux 系统安装 Windows 环境并使用远程桌面连接</a></li><li class="post-list-item"><a class="post-list-link" href="/hugo-config-structure.html">Hugo 新版配置 `config/_default/hugo.toml` 和项目根目录下的 `hugo.toml` 的关系</a></li><li class="post-list-item"><a class="post-list-link" href="/windows-iis-log-with-360xingtu-webview.html">网站服务器使用360星图自动分析IIS日志，并通过网页浏览</a></li><li class="post-list-item"><a class="post-list-link" href="/webhook-install-as-service-in-windows-server.html">Windows Server 部署 webhook 服务，并注册为系统服务守护</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><div id="waline-comment"></div><script type="module">let commentDiv = document.getElementById("waline-comment");
+let recentCommentUrl = 'https://waline.sobaigu.com' + '/api/comment?type=recent&count=5';
+function format( date ) {
+  return new Date(date).toLocaleString()
+}
+fetch(recentCommentUrl).then((comment) => {
+  return comment.json()
+}).then((recentComments) => {
+    let comments = "<ul>";
+    recentComments.data.forEach((comment, index) => {
+    comments += `<li>${index + 1}、${format(comment.time)}`
+    comments += `<div class="waline-comment-content"><a class="block" href="${window.location.origin + comment.url + '#waline'}">${comment.comment}</a></div>`
+    comments += `<div class="waline-comment-content-author ">--${comment.nick}</div></li>`
+    });
+    comments += "</ul>";
+    let commentDiv = document.getElementById("waline-comment");
+    commentDiv.innerHTML = comments;
+});</script></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 内容分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%81%9A%E7%BD%91%E7%AB%99/">做网站</a><span class="category-list-count">101</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E7%BC%96%E7%A8%8B/">学编程</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%90%9E%E8%BD%AF%E4%BB%B6/">搞软件</a><span class="category-list-count">142</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%94%92%E7%9F%A5%E8%AF%86/">攒知识</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B7X%E5%9C%88/">混X圈</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8E%A9%E7%B3%BB%E7%BB%9F/">玩系统</a><span class="category-list-count">130</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9E%8E%E9%80%BC%E9%80%BC/">瞎逼逼</a><span class="category-list-count">4</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://sobaigu.com/software/" title="软件宝库" target="_blank">软件宝库</a><ul></ul><a href="http://www.jayxon.com/" title="JayXon" target="_blank">JayXon</a><ul></ul><a href="http://www.wubase.com/" title="网联基地" target="_blank">网联基地</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2026 <a href="/." rel="nofollow">搜百谷.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.1.0" async></script><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.1.0"><script type="text/javascript" src="/js/search.js?v=1.1.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+  search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/copycode.js?v=1.1.0" successtext="复制成功！"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.1.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.1.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.1.0"></script></div></body></html>
